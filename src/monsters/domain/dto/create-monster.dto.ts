@@ -8,7 +8,7 @@ import {
   IsString,
   IsStrongPassword,
 } from 'class-validator';
-import { GENDERS } from '../shared/monsters.constants';
+import { GENDERS } from '../../shared/monsters.constants';
 
 export class CreateMonsterDto {
   @IsNotEmpty()

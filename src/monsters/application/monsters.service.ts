@@ -1,7 +1,8 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { CreateMonsterDto } from './dto/create-monster.dto';
-import { UpdateMonsterDto } from './dto/update-monster.dto';
-import { MONSTERS_REPOSITORY } from './repositories/monsters.repository';
+import { CreateMonsterDto } from '../domain/dto/create-monster.dto';
+import { UpdateMonsterDto } from '../domain/dto/update-monster.dto';
+import { MONSTERS_REPOSITORY } from '../infrastructure/repositories/monsters.repository';
+import { Monster } from '../domain/entities/monster.entity';
 
 @Injectable()
 export class MonstersService {
@@ -9,15 +10,15 @@ export class MonstersService {
     @Inject(MONSTERS_REPOSITORY) private readonly monstersRepository,
   ) {}
 
-  async create(createMonsterDto: CreateMonsterDto) {
+  async create(createMonsterDto: CreateMonsterDto): Promise<Monster> {
     return await this.monstersRepository.create(createMonsterDto);
   }
 
-  async findAll(limit = 50, skip = 0) {
+  async findAll(limit = 50, skip = 0): Promise<Monster[]> {
     return await this.monstersRepository.findAll(limit, skip);
   }
 
-  async findOne(id: string) {
+  async findOne(id: string): Promise<Monster> {
     // TODO: VALIDATE ID as mongoose.Types.ObjectID
     const monster = await this.monstersRepository.find(id);
 
@@ -27,7 +28,10 @@ export class MonstersService {
     return monster;
   }
 
-  async update(id: string, updateMonsterDto: UpdateMonsterDto) {
+  async update(
+    id: string,
+    updateMonsterDto: UpdateMonsterDto,
+  ): Promise<Monster> {
     const monsterUpdated = await this.monstersRepository.update(
       id,
       updateMonsterDto,

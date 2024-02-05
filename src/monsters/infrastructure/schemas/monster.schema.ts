@@ -1,9 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Model } from 'mongoose';
-import { GENDERS } from '../shared/monsters.constants';
+import { GENDERS } from '../../shared/monsters.constants';
 
 @Schema()
-export class Monster {
+class Monster {
   @Prop({ required: true })
   title: string;
 
@@ -53,6 +53,6 @@ export class Monster {
   deletedAt: Date;
 }
 
-export type MonsterDocument = HydratedDocument<Monster>;
 export const MonsterSchema = SchemaFactory.createForClass(Monster);
-export type MonsterModel = Model<Monster>;
+export type MonsterDocument = HydratedDocument<Monster>;
+export type MonsterModel = Model<MonsterDocument>;

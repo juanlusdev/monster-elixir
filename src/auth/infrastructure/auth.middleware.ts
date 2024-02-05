@@ -4,7 +4,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { NextFunction } from 'express';
-import { AuthService } from './auth.service';
+import { AuthService } from '../application/auth.service';
 
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
@@ -20,3 +20,6 @@ export class AuthMiddleware implements NestMiddleware {
     next();
   }
 }
+
+// default
+// JNUQIivJInzSxbSQe0iG5K9GPod2ZNVR

@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { MonstersModule } from './monsters/monsters.module';
+import { UsersModule } from './users/users.module';
+import { CacheModule } from '@nestjs/cache-manager';
+import { redisStore } from 'cache-manager-redis-yet';
 
 @Module({
   imports: [
@@ -20,8 +21,22 @@ import { MonstersModule } from './monsters/monsters.module';
     }),
     AuthModule,
     MonstersModule,
+    UsersModule,
+    CacheModule.registerAsync({
+      isGlobal: true,
+      useFactory: async () => ({
+        store: await redisStore({
+          password: 'JNUQIivJInzSxbSQe0iG5K9GPod2ZNVR',
+          username: 'default',
+          socket: {
+            host: 'redis-12146.c238.us-central1-2.gce.cloud.redislabs.com',
+            port: 12146,
+          },
+        }),
+      }),
+    }),
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
