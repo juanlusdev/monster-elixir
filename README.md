@@ -84,6 +84,8 @@ POST /auth/login -> Login a existing user in DB and returns authorization token
 - Implements the voting service. For this we can use some unique params in request like host and IP, or the other option is the front layer create some uniqueID for each user. Create a voting historic in DB for logging purposes and future reviews. With this we can stablish some auto gold changes without human interaction
 - Create custom param validation for _id params
 - In some places the types are not correct for DDD
+- Use GITHUB CI or similar for deploying lifecycle (linter, tests, deploy on staging tests and deploy in prod)
+- Create different environments with diferent variables: NODE_ENV with develop, test and production
 
 
 ## DEPLOYED
