@@ -24,9 +24,13 @@ export class MongoMonstersRepository
     return this.mapToMonster(monster);
   }
 
-  async findAll(limit: number, skip: number): Promise<Monster[]> {
+  async findAll(
+    limit: number,
+    skip: number,
+    showDeleted: boolean,
+  ): Promise<Monster[]> {
     const monsters = await this.monsterModel
-      .find({}, {}, { limit, skip })
+      .find({ isDeleted: showDeleted }, {}, { limit, skip })
       .lean();
     return monsters.map((monster) => this.mapToMonster(monster));
   }

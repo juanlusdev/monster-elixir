@@ -36,26 +36,14 @@ export class MonstersController {
     return this.monstersService.create(createMonsterDto);
   }
 
-  // TODO: https://khalilstemmler.com/articles/typescript-domain-driven-design/chain-business-logic-domain-events/
-  // https://medium.com/@carlessuriol/eventos-de-dominio-en-typescript-57dc1b9b8fa8
-  // https://javascript.plainenglish.io/practical-ddd-in-typescript-domain-service-8c32afefb102
-
   @Get()
   @HttpCode(HttpStatus.OK)
   findAll(@Query() queryParams: QueryPaginationDto) {
-    // let monsters = await this.cacheManager.get(
-    //   `monster_list_${Object.values(queryParams)}`,
-    // );
-
-    // if (!monsters) {
-    return this.monstersService.findAll(queryParams.limit, queryParams.skip);
-
-    // await this.cacheManager.set(
-    //   `monster_list_${Object.values(queryParams)}`,
-    //   monsters,
-    // );
-    // }
-    // return monsters;
+    return this.monstersService.findAll(
+      queryParams.limit,
+      queryParams.skip,
+      queryParams.showDeleted,
+    );
   }
 
   @Get(':id')
@@ -66,6 +54,7 @@ export class MonstersController {
 
   @Patch(':id')
   @HttpCode(HttpStatus.CREATED)
+  @UseGuards(AuthGuard)
   async update(
     @Param('id') id: string,
     @Body() updateMonsterDto: UpdateMonsterDto,
@@ -75,6 +64,7 @@ export class MonstersController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.ACCEPTED)
+  @UseGuards(AuthGuard)
   remove(@Param('id') id: string) {
     return this.monstersService.remove(id);
   }

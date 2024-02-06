@@ -20,6 +20,3 @@ export class AuthMiddleware implements NestMiddleware {
     next();
   }
 }
-
-// default
-// JNUQIivJInzSxbSQe0iG5K9GPod2ZNVR

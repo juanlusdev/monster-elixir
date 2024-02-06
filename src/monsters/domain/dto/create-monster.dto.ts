@@ -7,6 +7,7 @@ import {
   IsNumberString,
   IsString,
   IsStrongPassword,
+  Min,
 } from 'class-validator';
 import { GENDERS } from '../../shared/monsters.constants';
 
@@ -41,12 +42,15 @@ export class CreateMonsterDto {
   image: string;
 
   @IsNumberString()
+  @Min(0)
   gold: number;
 
   @IsNumberString()
+  @Min(0)
   speed: number;
 
   @IsNumberString()
+  @Min(0)
   health: number;
 
   secretNotes: string;

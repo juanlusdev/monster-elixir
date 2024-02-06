@@ -66,7 +66,6 @@ export class AuthService {
       throw new UnauthorizedException('Invalid password');
     }
 
-    // TODO: REVIEW _id
     const payload = { email: user.email, _id: user._id };
 
     const token = await this.jwtService.signAsync(payload);

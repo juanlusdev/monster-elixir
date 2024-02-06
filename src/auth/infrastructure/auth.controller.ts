@@ -10,7 +10,6 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @Post('login')
   login(@Body() loginDto: LoginDto) {
-    // TODO: create signInDto
     return this.authService.login(loginDto);
   }
 

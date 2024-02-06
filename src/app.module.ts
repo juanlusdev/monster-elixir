@@ -23,14 +23,16 @@ import { redisStore } from 'cache-manager-redis-yet';
     MonstersModule,
     UsersModule,
     CacheModule.registerAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
       isGlobal: true,
-      useFactory: async () => ({
+      useFactory: async (configService: ConfigService) => ({
         store: await redisStore({
-          password: 'JNUQIivJInzSxbSQe0iG5K9GPod2ZNVR',
-          username: 'default',
+          password: configService.get('REDIS_PASS'),
+          username: configService.get('REDIS_USER'),
           socket: {
-            host: 'redis-12146.c238.us-central1-2.gce.cloud.redislabs.com',
-            port: 12146,
+            host: configService.get('REDIS_HOST'),
+            port: configService.get('REDIS_PORT'),
           },
         }),
       }),

@@ -5,4 +5,6 @@ export class QueryPaginationDto {
   limit: number;
   @Transform(({ value }) => parseInt(value))
   skip: number;
+  @Transform(({ value }) => Boolean(value))
+  showDeleted: boolean;
 }

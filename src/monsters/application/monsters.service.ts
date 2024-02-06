@@ -11,15 +11,18 @@ export class MonstersService {
   ) {}
 
   async create(createMonsterDto: CreateMonsterDto): Promise<Monster> {
-    return await this.monstersRepository.create(createMonsterDto);
+    const monster: CreateMonsterDto & { createdAt: Date } = {
+      ...createMonsterDto,
+      createdAt: new Date(),
+    };
+    return await this.monstersRepository.create(monster);
   }
 
-  async findAll(limit = 50, skip = 0): Promise<Monster[]> {
-    return await this.monstersRepository.findAll(limit, skip);
+  async findAll(limit = 50, skip = 0, showDeleted = false): Promise<Monster[]> {
+    return await this.monstersRepository.findAll(limit, skip, showDeleted);
   }
 
   async findOne(id: string): Promise<Monster> {
-    // TODO: VALIDATE ID as mongoose.Types.ObjectID
     const monster = await this.monstersRepository.find(id);
 
     if (!monster) {
@@ -32,10 +35,11 @@ export class MonstersService {
     id: string,
     updateMonsterDto: UpdateMonsterDto,
   ): Promise<Monster> {
-    const monsterUpdated = await this.monstersRepository.update(
-      id,
-      updateMonsterDto,
-    );
+    const monster: UpdateMonsterDto & { updatedAt: Date } = {
+      ...updateMonsterDto,
+      updatedAt: new Date(),
+    };
+    const monsterUpdated = await this.monstersRepository.update(id, monster);
 
     if (!monsterUpdated) {
       throw new NotFoundException(`Monster with id ${id} not found`);
@@ -44,7 +48,16 @@ export class MonstersService {
     return monsterUpdated;
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} monster`;
+  async remove(id: string) {
+    const monsterRemoved = await this.monstersRepository.update(id, {
+      isDeleted: true,
+      deletedAt: new Date(),
+    });
+
+    if (!monsterRemoved) {
+      throw new NotFoundException(`Monster with id ${id} not found`);
+    }
+
+    return 'Monster removed';
   }
 }
