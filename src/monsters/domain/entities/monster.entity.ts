@@ -1,6 +1,7 @@
 export class Monster {
   // In this entity we can use ValueObjects
   // or set Domain requirements for each param
+  _id: string;
   title: string;
   firstName: string;
   lastName: string;

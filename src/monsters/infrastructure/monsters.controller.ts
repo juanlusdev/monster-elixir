@@ -11,16 +11,17 @@ import {
   Query,
   UseGuards,
   Inject,
+  UseInterceptors,
 } from '@nestjs/common';
 import { MonstersService } from '../application/monsters.service';
 import { CreateMonsterDto } from '../domain/dto/create-monster.dto';
 import { UpdateMonsterDto } from '../domain/dto/update-monster.dto';
 import { QueryPaginationDto } from 'src/shared/dto/query-pagination.dto';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
-import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager';
+import { CACHE_MANAGER, Cache, CacheInterceptor } from '@nestjs/cache-manager';
 
 @Controller('monsters')
-// @UseInterceptors(CacheInterceptor)
+@UseInterceptors(CacheInterceptor)
 export class MonstersController {
   constructor(
     private readonly monstersService: MonstersService,
@@ -41,16 +42,13 @@ export class MonstersController {
 
   @Get()
   @HttpCode(HttpStatus.OK)
-  async findAll(@Query() queryParams: QueryPaginationDto) {
+  findAll(@Query() queryParams: QueryPaginationDto) {
     // let monsters = await this.cacheManager.get(
     //   `monster_list_${Object.values(queryParams)}`,
     // );
 
     // if (!monsters) {
-    return await this.monstersService.findAll(
-      queryParams.limit,
-      queryParams.skip,
-    );
+    return this.monstersService.findAll(queryParams.limit, queryParams.skip);
 
     // await this.cacheManager.set(
     //   `monster_list_${Object.values(queryParams)}`,

@@ -56,6 +56,7 @@ export class MongoMonstersRepository
   mapToMonster(monsterDoc: MonsterDocument): Monster {
     const monster = new Monster();
 
+    monster._id = monsterDoc._id.toString();
     monster.title = monsterDoc.title;
     monster.firstName = monsterDoc.firstName;
     monster.lastName = monsterDoc.lastName;
