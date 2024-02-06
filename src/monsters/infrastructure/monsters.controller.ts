@@ -41,13 +41,13 @@ export class MonstersController {
 
   @Get()
   @HttpCode(HttpStatus.OK)
-  findAll(@Query() queryParams: QueryPaginationDto) {
+  async findAll(@Query() queryParams: QueryPaginationDto) {
     // let monsters = await this.cacheManager.get(
     //   `monster_list_${Object.values(queryParams)}`,
     // );
 
     // if (!monsters) {
-    return this.monstersService.findAll(
+    return await this.monstersService.findAll(
       queryParams.limit,
       queryParams.skip,
     );
