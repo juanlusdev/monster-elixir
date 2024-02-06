@@ -26,8 +26,6 @@ export class AuthService {
     return this.apiKey && key && this.apiKey === key;
   }
 
-  // https://bluuweb.dev/nestjs/auth-jwt.html
-
   async register(registerDto: RegisterDto) {
     const user = await this.usersService.findOneByEmail(registerDto.email);
 
